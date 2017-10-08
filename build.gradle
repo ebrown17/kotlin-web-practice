@@ -1,0 +1,49 @@
+buildscript {
+    ext.kotlin_version = '1.1.51'
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'kotlin'
+apply plugin: 'eclipse'
+apply plugin: 'war'
+
+
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile group: 'javax', name: 'javaee-api', version: '7.0'
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+}
+
+sourceSets {
+    main {
+        kotlin {
+            srcDir "src/main/kotlin"
+        }
+       
+    }
+    test {
+        kotlin {
+            srcDir "test/main/kotlin"
+        }
+    }
+   
+}
+
+task copyWar(type: Copy){
+  from 'build/libs/web-prac.war'
+  into '/home/ebbz/Documents/apache-tomcat-9.0.1/webapps'
+}
+war {
+  webAppDirName='src/main/kotlin'
+}
+
+copyWar.dependsOn war
